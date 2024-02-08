@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAM Calculator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <h1>Standard Atmosphere Model Calculator</h1>
+  <label for="altitude">altitude (meters): </label>
+  <input type="text" id="altitude" placeholder="altitude in meters">
+  <button id="calculateButton">Calculate</button>
+  <p>Valid inputs are sea level (0 meters) to 85,000 meters</p>
+  <div id="results">
+    <p>Temperature: <span id="temperature"></span> K</p>
+    <p>Pressure: <span id="pressure"></span> Pa</p>
+    <p>Density: <span id="density"></span> kg/m^3</p>
+    <p>Speed of Sound: <span id="speedOfSound"></span> m/s</p>
+  </div>
+  <div class="canvasContainer">
+    <div class="yAxis">Altitude (m)</div>
+    <div class="altitude-range-high">85 km</div>
+    <div class="altitude-range-low">sea level</div>
+    <canvas id="temperaturePlot" width="300" height="400"></canvas>
+    <div class="xAxis">Temperature (K)</div>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>
