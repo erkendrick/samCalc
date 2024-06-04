@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/samCalc/static/css/main.16f13cb3.css",
-    "main.js": "/samCalc/static/js/main.80e6e39b.js",
+    "main.css": "/samCalc/static/css/main.c1c290d1.css",
+    "main.js": "/samCalc/static/js/main.d35e72dc.js",
     "index.html": "/samCalc/index.html",
-    "main.16f13cb3.css.map": "/samCalc/static/css/main.16f13cb3.css.map",
-    "main.80e6e39b.js.map": "/samCalc/static/js/main.80e6e39b.js.map"
+    "main.c1c290d1.css.map": "/samCalc/static/css/main.c1c290d1.css.map",
+    "main.d35e72dc.js.map": "/samCalc/static/js/main.d35e72dc.js.map"
   },
   "entrypoints": [
-    "static/css/main.16f13cb3.css",
-    "static/js/main.80e6e39b.js"
+    "static/css/main.c1c290d1.css",
+    "static/js/main.d35e72dc.js"
   ]
 }
