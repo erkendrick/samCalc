@@ -15,7 +15,7 @@ function App() {
 
     return (
         <div className="App-container">
-            <h1>Atmospheric Calculator</h1>
+            <h1>Standard Atmosphere Calculator</h1>
             <InputForm setResults={setResults} setAltitude={setAltitude} />
             <DisplayResults results={results} />
             <TemperaturePlot altitude={altitude} setResults={setResults} />

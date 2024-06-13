@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceDot } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine } from 'recharts';
 import { selectLayer, calculateAtmosphericProperties, atmosphericLayers } from './AtmosphericCalculator';
 
 const TemperaturePlot = ({ altitude, setResults }) => {
@@ -27,23 +27,23 @@ const TemperaturePlot = ({ altitude, setResults }) => {
     useEffect(() => {
         if (altitude !== null) {
             const results = calculateAtmosphericProperties(altitude);
-            setMarker({ altitude, temperature: results.temperature });
             setResults(results);
+            const correspondingPoint = data.find(point => point.altitude === altitude);
+            if (correspondingPoint) {
+                setMarker(correspondingPoint);
+            } else {
+                setMarker(null);
+            }
         }
-    }, [altitude, setResults]);
+    }, [altitude, setResults, data]);
 
     const handleMouseMove = (e) => {
-      if (e && e.chartY !== undefined) {
-          const yCoord = e.chartY;
-          const chartHeight = e.chartHeight || 600;
-          const yValue = (1 - yCoord / chartHeight) * 85000;
-          const clampedYValue = Math.max(0, Math.min(yValue, 85000));
-          const closestAltitude = Math.round(clampedYValue / 100) * 100;
-          const results = calculateAtmosphericProperties(closestAltitude);
-          setResults(results);
-          setMarker({ altitude: closestAltitude, temperature: results.temperature });
-      }
-  };
+        if (e && e.activePayload && e.activePayload.length > 0) {
+            const { altitude: hoveredAltitude } = e.activePayload[0].payload;
+            const results = calculateAtmosphericProperties(hoveredAltitude);
+            setResults(results);
+        }
+    };
 
     const yTicks = atmosphericLayers.map(layer => layer.maxAltitude);
 
@@ -51,8 +51,8 @@ const TemperaturePlot = ({ altitude, setResults }) => {
         <ResponsiveContainer width="66%" height={600} className="chart-container">
             <LineChart
                 data={data}
+                margin={{ top: 50, right: 30, left: 50, bottom: 10 }}
                 onMouseMove={handleMouseMove}
-                margin={{ top: 10, right: 30, left: 50, bottom: 0 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis
@@ -70,11 +70,16 @@ const TemperaturePlot = ({ altitude, setResults }) => {
                     domain={[0, 85000]}
                     ticks={yTicks}
                 />
-                <Tooltip cursor={{ strokeDasharray: '3 3' }} />
                 <Line type="monotone" dataKey="altitude" stroke="#8884d8" strokeWidth={5} dot={false} />
                 {marker && (
-                    <ReferenceDot x={marker.temperature} y={marker.altitude} r={5} fill="red" stroke="none" />
+                    <>
+                        <ReferenceLine x={marker.temperature} stroke="red" strokeDasharray="3 3" />
+                        <ReferenceLine y={marker.altitude} stroke="red" strokeDasharray="3 3" />
+                    </>
                 )}
+                <text x="50%" y="20" textAnchor="middle" dominantBaseline="hanging" fontSize="18" fontWeight="bold">
+                    Temperature [K] vs. Altitude [m]
+                </text>
             </LineChart>
         </ResponsiveContainer>
     );
